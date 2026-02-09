@@ -3,22 +3,22 @@ package com.netsolucions.netsolucions_api.client.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
-@Data // Lombok: Nos ahorra escribir getters y setters
-@Entity // JPA: Convierte esta clase en una Tabla
-@Table(name = "clients") // Nombre real de la tabla en MySQL
+@Data // Lombok: Crea getters, setters y toString automáticamente
+@Entity // JPA: Indica que esto es una tabla de base de datos
+@Table(name = "clientes")
 public class Client {
 
-    @Id // Llave primaria
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-incremental (1, 2, 3...)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false) // No puede dejarse vacío
-    private String name;
+    @Column(nullable = false) // Obligatorio
+    private String nombre;
 
-    @Column(nullable = false, unique = true) // No puede haber dos clientes con la misma cédula
-    private String dni;
+    @Column(nullable = false, unique = true) // Obligatorio y único
+    private String cedula;
 
-    private String email;
-    private String phone;
-    private String address;
+    private String correo;
+    private String telefono;
+    private String direccion;
 }
