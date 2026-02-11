@@ -39,15 +39,65 @@ public class ClientService {
         return repository.save(client);
     }
 
-    // Convierte la Entidad de la base de datos a un objeto de respuesta (DTO) para enviarlo al cliente.
     public ClientDto toDto(Client client) {
+        String estadoTexto = client.isActivo() ? "ACTIVO" : "INACTIVO";
+
         return new ClientDto(
                 client.getId(),
                 client.getNombre(),
                 client.getCedula(),
                 client.getCorreo(),
                 client.getTelefono(),
-                client.getDireccion()
+                client.getDireccion(),
+                estadoTexto
         );
+    }
+    // ACTUALIZAR (PUT)
+    public ClientDto updateClient(Long id, ClientCreateDto updateDto) {
+        // Buscamos si existe (usando 'repository')
+        Client client = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Error: Cliente no encontrado"));
+
+        // Actualizamos los datos
+        client.setNombre(updateDto.getNombre());
+        client.setCedula(updateDto.getCedula());
+        client.setCorreo(updateDto.getCorreo());
+        client.setTelefono(updateDto.getTelefono());
+        client.setDireccion(updateDto.getDireccion());
+
+        // Guardamos los cambios
+        Client updatedClient = repository.save(client);
+
+        // Devolvemos el DTO actualizado
+        ClientDto responseDto = new ClientDto();
+        responseDto.setId(updatedClient.getId());
+        responseDto.setNombre(updatedClient.getNombre());
+        responseDto.setCedula(updatedClient.getCedula());
+        responseDto.setCorreo(updatedClient.getCorreo());
+        responseDto.setTelefono(updatedClient.getTelefono());
+        responseDto.setDireccion(updatedClient.getDireccion());
+        responseDto.setEstado(updatedClient.isActivo() ? "ACTIVO" : "INACTIVO");
+
+        return responseDto;
+    }
+
+    // BORRADO LÓGICO (DELETE)
+    public void deleteClient(Long id) {
+        Client client = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Error: Cliente no encontrado"));
+
+        client.setActivo(false);
+
+        repository.save(client);
+    }
+    // RESTAURAR CLIENTE (PATCH)
+    public ClientDto restoreClient(Long id) {
+        Client client = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Error: Cliente no encontrado"));
+
+        client.setActivo(true);
+
+        Client updatedClient = repository.save(client);
+        return toDto(updatedClient);
     }
 }

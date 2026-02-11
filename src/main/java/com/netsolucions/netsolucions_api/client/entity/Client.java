@@ -18,6 +18,10 @@ public class Client {
     @Column(nullable = false, unique = true) // Obligatorio y único
     private String cedula;
 
+    // Campo para el borrado lógico
+    @Column(columnDefinition = "boolean default true")
+    private boolean activo = true;
+
     private String correo;
     private String telefono;
     private String direccion;

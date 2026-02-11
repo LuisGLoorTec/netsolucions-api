@@ -15,7 +15,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    // 1. DEFINIR QUÉ RUTAS ESTÁN PROTEGIDAS
+    // DEFINIMOS QUE RUTAS ESTAN PROTEGIDAS
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
@@ -27,7 +27,7 @@ public class SecurityConfig {
                 .build();
     }
 
-    // 2. CREAR EL USUARIO PARA ENTRAR (EN MEMORIA)
+    // CREAMOS EL USUARIO
     @Bean
     public UserDetailsService userDetailsService() {
         UserDetails admin = User.builder()
