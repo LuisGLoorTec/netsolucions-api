@@ -34,7 +34,7 @@ public class Contract {
     @Column(nullable = false)
     private ContractStatus estado;
 
-    // Muchos contratos pueden pertenecer a Un Cliente (@ManyToOne).
+    // Muchos contratos pueden pertenecer a Un Cliente.
     // @JoinColumn crea la columna "client_id" automáticamente en nuestra tabla de contratos.
     @ManyToOne
     @JoinColumn(name = "client_id", nullable = false)
